@@ -204,6 +204,27 @@
 #endif /* COMPILER_HAS_GENERIC_BUILTIN_OVERFLOW */
 
 /**
+ * array_size() - Calculate size of 2-dimensional array.
+ *
+ * @a: dimension one
+ * @b: dimension two
+ *
+ * Calculates size of 2-dimensional array: @a * @b.
+ *
+ * Returns: number of bytes needed to represent the array or SIZE_MAX on
+ * overflow.
+ */
+static inline __must_check size_t array_size(size_t a, size_t b)
+{
+	size_t bytes;
+
+	if (check_mul_overflow(a, b, &bytes))
+		return SIZE_MAX;
+
+	return bytes;
+}
+
+/**
  * struct_size() - Calculate size of structure with trailing array.
  * @p: Pointer to the structure.
  * @member: Name of the array member.
